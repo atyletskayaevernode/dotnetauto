@@ -73,8 +73,6 @@ namespace Tests1
         {
             client.Dispose();
         }
-
-
     }
 }
 
