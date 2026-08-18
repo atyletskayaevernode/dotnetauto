@@ -51,6 +51,7 @@ namespace Tests1.Tests
         {
             var deleteResult = await api.DeleteUserAsync(2);
             Assert.That(deleteResult.StatusCode, Is.EqualTo(HttpStatusCode.NoContent));
+            //Assert.That((int)deleteResult.StatusCode, Is.EqualTo(204));
         }
     }
 }
