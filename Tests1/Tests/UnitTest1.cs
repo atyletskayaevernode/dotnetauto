@@ -2,7 +2,7 @@
 using System.Text.Json;
 using Tests1.DTO;
 
-namespace Tests1
+namespace Tests1.Tests
 {
     public class Tests
     {
