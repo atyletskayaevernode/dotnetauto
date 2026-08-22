@@ -15,7 +15,7 @@ namespace Tests1.DTO.UsersDTO
         int age,
 
         [property: JsonPropertyName("address")] 
-        Address address,
+        AddressDTO address,
 
         [property: JsonPropertyName("tags")] 
         IReadOnlyList<string> tags

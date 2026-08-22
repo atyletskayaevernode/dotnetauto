@@ -14,7 +14,7 @@ namespace Tests1.DTO.UsersDTO
         string city,
 
         [property: JsonPropertyName("geo")] 
-        Geo geo
+        GeoDTO geo
         );
         
         

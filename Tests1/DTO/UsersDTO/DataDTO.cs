@@ -15,7 +15,7 @@ namespace Tests1.DTO.UsersDTO
         string username,
 
         [property: JsonPropertyName("profile")]
-        Profile profile,
+        ProfileDTO profile,
 
         [property: JsonPropertyName("roles")]
         IReadOnlyList<string> roles
