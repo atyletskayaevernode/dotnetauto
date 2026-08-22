@@ -72,5 +72,18 @@ namespace Tests1.Tests
             var atLeastOneIsAdmin = root.data.Any(user => user.roles.Contains("admin"));
             atLeastOneIsAdmin.Should().BeTrue();
         }
+
+        [Test] // 3. Проверить, что все юзеры (их координаты) находятся в диапазоне Швеции
+        public async Task Test9_AllUsersCoordinatesAreInSweden() 
+        {
+            var nominatim = new NominatimClient();
+            foreach (var user in root.data)
+            {
+                var countryCode = await nominatim.GetCountryCodeAsync(
+                    user.profile.address.geo.lat,
+                    user.profile.address.geo.lng);
+                countryCode.Should().Be("se");
+            }
+        }
     }
 }
