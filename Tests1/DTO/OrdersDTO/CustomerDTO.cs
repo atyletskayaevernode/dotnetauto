@@ -19,7 +19,7 @@ namespace Tests1.DTO.OrdersDTO
         [property: JsonPropertyName("phone")]
         string Phone,
 
-        [property: JsonPropertyName("addess")]
+        [property: JsonPropertyName("address")]
         AddressDTO Address
         );
 }
