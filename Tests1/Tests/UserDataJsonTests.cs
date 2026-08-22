@@ -1,9 +1,11 @@
 ﻿using FluentAssertions;
+using Microsoft.VisualStudio.TestPlatform.Utilities.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
 using Tests1.DTO.UsersDTO;
+using Tests1.Helpers;
 
 namespace Tests1.Tests
 {
@@ -14,9 +16,7 @@ namespace Tests1.Tests
         [OneTimeSetUp]
         public void Setup()
         {
-            var path = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "UserData.json");
-            string json = File.ReadAllText(path);
-            root = JsonSerializer.Deserialize<RootDTO>(json);
+            root = FileReader.ReadJson<RootDTO>("UserData.json");
         }
 
         [Test] // 2.1 Проверить, что количество юзеров из файла равно 10

@@ -1,11 +1,13 @@
-﻿using System;
+﻿using FluentAssertions;
+using FluentAssertions.Execution;
+using Microsoft.VisualStudio.TestPlatform.Utilities.Helpers;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
-using FluentAssertions;
-using FluentAssertions.Execution;
 using Tests1.DTO;
 using Tests1.DTO.OrdersDTO;
+using Tests1.Helpers;
 
 namespace Tests1.Tests
 {
@@ -16,10 +18,7 @@ namespace Tests1.Tests
         [OneTimeSetUp]
         public void Setup()
         {
-            var path = Path.Combine(TestContext.CurrentContext.TestDirectory, "Resources", "OrderData.json");
-            string json = File.ReadAllText(path);
-
-            order = JsonSerializer.Deserialize<OrderDTO>(json);
+            order = FileReader.ReadJson<OrderDTO>("OrderData.json");
         }
 
         [Test]  //тест на проверку товаров - они есть и их 3
