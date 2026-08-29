@@ -9,13 +9,13 @@ namespace Tests1.DTO.DapperTestsDTO
         (
         long id,
 
-        string orderId,
+        long orderId,
 
-        string productId,
+        long productId,
 
         long quantity,
 
-        long unitPrice
+        double unitPrice
         );
 }
     

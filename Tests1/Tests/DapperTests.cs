@@ -51,7 +51,7 @@ namespace Tests1.Tests
             address.Should().NotBeNull();
         }
 
-        [Test]
+        [Test] //2.1 Получить из базы все категории, проверить на количество (смотрите файл с инициализацией)
         public async Task Test005GetAllCategoriesFromDbAndCount()
         {
             var repo = p.Provider.GetService<ICategoryRepository>();
@@ -59,7 +59,7 @@ namespace Tests1.Tests
             categories.Should().HaveCount(6);
         }
 
-        [Test]
+        [Test] //2.2 Получить из таблицы Products определенный продукт по его id, проверить его поля, что это действительно тот продукт, который мы ожидали
         public async Task Test006GetProductById()
         {
             var repo = p.Provider.GetService<IProductRepository>();
@@ -70,6 +70,22 @@ namespace Tests1.Tests
             product.price.Should().Be(79990);
             product.stock.Should().Be(15);
             product.categoryId.Should().Be(1);
+        }
+
+        [Test] //2.3 Получить из таблицы Orders конкретный заказ конкретного юзера и проверить, что в нем именно те товары (Items), которые в нем должны быть
+        public async Task Test007GetOrderByIdAndCheckItemsInThisOrder()
+        {
+            var orderRepo = p.Provider.GetService<IOrderRepository>();
+            var itemsRepo = p.Provider.GetService<IOrderItemsRepository>();
+
+            var order = await orderRepo.GetOrderByUserId(1, 1);
+            order.Should().NotBeNull();
+
+            var items = await itemsRepo.GetOrderItemsByOrderId((int)order.id);
+            items.Should().HaveCount(2);
+
+            var productIds = items.Select(item => item.productId).ToList();
+            productIds.Should().BeEquivalentTo(new[] { 1L, 15L });
         }
 
         //[Test] //генерация базы - раскомментить, а потом запустить тест разово
