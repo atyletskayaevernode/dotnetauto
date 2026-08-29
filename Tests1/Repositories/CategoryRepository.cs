@@ -15,7 +15,7 @@ namespace Tests1.Repositories
         {
             this.connection = connection;
         }
-        public async Task<IEnumerable<CategoryDTO>> GetCategoriesAsync()
+        public async Task<IEnumerable<CategoryDTO>> GetCategories()
         {
             using var db = new SqliteConnection(connection);
             var categories = await db.QueryAsync<CategoryDTO>("SELECT * from Categories");

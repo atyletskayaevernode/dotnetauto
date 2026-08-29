@@ -55,8 +55,21 @@ namespace Tests1.Tests
         public async Task Test005GetAllCategoriesFromDbAndCount()
         {
             var repo = p.Provider.GetService<ICategoryRepository>();
-            var categories = await repo.GetCategoriesAsync();
+            var categories = await repo.GetCategories();
             categories.Should().HaveCount(6);
+        }
+
+        [Test]
+        public async Task Test006GetProductById()
+        {
+            var repo = p.Provider.GetService<IProductRepository>();
+            var product = await repo.GetProductById(1);
+            product.id.Should().Be(1);
+            product.name.Should().Be("iPhone 15");
+            product.description.Should().Be("Смартфон Apple");
+            product.price.Should().Be(79990);
+            product.stock.Should().Be(15);
+            product.categoryId.Should().Be(1);
         }
 
         //[Test] //генерация базы - раскомментить, а потом запустить тест разово

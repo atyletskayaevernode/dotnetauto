@@ -5,8 +5,8 @@ using Tests1.DTO.DapperTestsDTO;
 
 namespace Tests1.Interfaces.DapperTestsInterfaces
 {
-    public interface ICategoryRepository
+    public interface IProductRepository
     {
-        Task<IEnumerable<CategoryDTO>> GetCategories();
+        Task<ProductDTO> GetProductById(int id);
     }
 }
