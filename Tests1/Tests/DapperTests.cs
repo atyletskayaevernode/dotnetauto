@@ -51,6 +51,13 @@ namespace Tests1.Tests
             address.Should().NotBeNull();
         }
 
+        [Test]
+        public async Task Test005GetAllCategoriesFromDbAndCount()
+        {
+            var repo = p.Provider.GetService<ICategoryRepository>();
+            var categories = await repo.GetCategoriesAsync();
+            categories.Should().HaveCount(6);
+        }
 
         //[Test] //генерация базы - раскомментить, а потом запустить тест разово
         //public async Task InitialiseTest()
