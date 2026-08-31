@@ -13,7 +13,7 @@ namespace Tests1.DTO.DapperTestsDTO
 
         string description,
 
-        long price,
+        double price,
 
         long stock,
 
