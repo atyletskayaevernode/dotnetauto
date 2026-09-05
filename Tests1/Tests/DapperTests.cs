@@ -119,7 +119,7 @@ namespace Tests1.Tests
             cities.Should().Contain(new[] { "Москва", "Екатеринбург" });
         }
 
-        [Test] // тест фейлится, потому что в базе таких покупателей нет (наверное :) )
+        [Test] // тест фейлится, потому что в базе таких покупателей нет
         public async Task TvBuyersAlsoBuyAccessoriesAsync()
         {
             var productRepo = p.Provider.GetService<IProductRepository>();
