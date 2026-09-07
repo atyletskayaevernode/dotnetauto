@@ -88,6 +88,76 @@ namespace Tests1.Tests
             productIds.Should().BeEquivalentTo(new[] { 1L, 15L });
         }
 
+        [Test]
+        public async Task AccessoriesBoughtByUsersFromDifferentCitiesAsync()
+        {
+            var productRepo = p.Provider.GetService<IProductRepository>();
+            var itemsRepo = p.Provider.GetService<IOrderItemsRepository>();
+            var orderRepo = p.Provider.GetService<IOrderRepository>();
+            var addressRepo = p.Provider.GetService<IAddressRepository>();
+
+            var accessoryProductsIds = (await productRepo.GetProductsByCategoryId(6))
+                .Select(product => product.id)
+                .ToList();
+
+            var orderIds = (await itemsRepo.GetOrderItemsByProductIds(accessoryProductsIds))
+                .Select(item => item.orderId)
+                .Distinct()
+                .ToList();
+
+            var userIds = (await orderRepo.GetOrdersByIds(orderIds))
+                .Select(order => order.userId)
+                .Distinct()
+                .ToList();
+
+            var cities = new List<string>();
+            foreach (var userId in userIds)
+            {
+                var address = await addressRepo.GetAddressByUserId((int)userId);
+                cities.Add(address.city);
+            }
+            cities.Should().Contain(new[] { "Москва", "Екатеринбург" });
+        }
+
+        [Test] // тест фейлится, потому что в базе таких покупателей нет
+        public async Task TvBuyersAlsoBuyAccessoriesAsync()
+        {
+            var productRepo = p.Provider.GetService<IProductRepository>();
+            var itemsRepo = p.Provider.GetService<IOrderItemsRepository>();
+            var orderRepo = p.Provider.GetService<IOrderRepository>();
+
+            var tvProductsIds = (await productRepo.GetProductsByCategoryId(4))
+                .Select(product => product.id)
+                .ToList();
+
+            var tvOrderIds = (await itemsRepo.GetOrderItemsByProductIds(tvProductsIds))
+                .Select(item => item.orderId)
+                .Distinct()
+                .ToList();
+
+            var tvBuyerIds = (await orderRepo.GetOrdersByIds(tvOrderIds))
+                .Select(order => order.userId)
+                .Distinct()
+                .ToList();
+
+            var accessoryProductsIds = (await productRepo.GetProductsByCategoryId(6))
+                .Select(product => product.id)
+                .ToList();
+
+            var accessoryOrderIds = (await itemsRepo.GetOrderItemsByProductIds(accessoryProductsIds))
+                .Select(item => item.orderId)
+                .Distinct()
+                .ToList();
+
+            var accessoryBuyerIds = (await orderRepo.GetOrdersByIds(accessoryOrderIds))
+                .Select(order => order.userId)
+                .Distinct()
+                .ToList();
+
+            tvBuyerIds.Should().BeSubsetOf(accessoryBuyerIds);
+        }
+
+
         //[Test] //генерация базы - раскомментить, а потом запустить тест разово
         //public async Task InitialiseTest()
         //{
