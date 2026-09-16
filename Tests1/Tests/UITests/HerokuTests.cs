@@ -37,5 +37,31 @@ namespace Tests1.Tests.UITests
 
             errorMessageText.Should().Contain("Your username is invalid!");
         }
+
+        [Test]
+        public async Task DropdownPageAsync()
+        {
+            await Page.GotoAsync("https://the-internet.herokuapp.com/dropdown");
+
+            await Assertions.Expect(Page).ToHaveTitleAsync("The Internet");
+            await Assertions.Expect(Page).ToHaveURLAsync("https://the-internet.herokuapp.com/dropdown");
+
+            var dropdown = Page.Locator("#dropdown");
+            await Assertions.Expect(dropdown).ToBeVisibleAsync();
+
+            await dropdown.SelectOptionAsync("1"); //выбираем в дропдауне по value из верстки, который соответствует опции "Option 1"
+
+            //1-й способ проверить, что выбрана нужная опция: проверка, что в дропдауне стоит опция с этим велью
+            await Assertions.Expect(dropdown).ToHaveValueAsync("1");
+
+            //2-й способ: получение опции из дропдауна, которая выбрана и сравнение текста
+            var selectedOption = dropdown.Locator("option:checked");
+            await Assertions.Expect(selectedOption).ToHaveTextAsync("Option 1");
+
+            await dropdown.SelectOptionAsync("2");
+            await Assertions.Expect(selectedOption).ToHaveTextAsync("Option 2");
+        }
+
+
     }
 }
