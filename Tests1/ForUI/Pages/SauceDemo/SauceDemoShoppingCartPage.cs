@@ -10,6 +10,7 @@ namespace Tests1.ForUI.Pages.SauceDemo
         private readonly IPage Page;
         private ILocator ItemName => Page.Locator("//div[@data-test='inventory-item-name']");
         private ILocator CheckoutButton => Page.Locator("//button[@data-test='checkout']");
+        private ILocator ItemPrice => Page.Locator("//div[@data-test='inventory-item-price']");
 
         public SauceDemoShoppingCartPage(IPage page)
         {
@@ -23,6 +24,11 @@ namespace Tests1.ForUI.Pages.SauceDemo
         public async Task ClickCheckoutButtonAsync()
         {
             await CheckoutButton.ClickAsync();
+        }
+
+        public async Task<IReadOnlyList<string>> GetItemPricesAsync()
+        {
+            return await ItemPrice.AllTextContentsAsync();
         }
     }
 }

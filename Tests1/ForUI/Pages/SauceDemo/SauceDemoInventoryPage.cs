@@ -38,5 +38,12 @@ namespace Tests1.ForUI.Pages.SauceDemo
                 .Locator("xpath=.//div[@data-test='inventory-item-name']")
                 .TextContentAsync();
         }
+
+        public async Task<string> GetItemPriceAsync(int itemIndex)
+        {
+            return await InventoryItem.Nth(itemIndex)
+                .Locator("xpath=.//div[@data-test='inventory-item-price']")
+                .TextContentAsync();
+        }
     }
 }

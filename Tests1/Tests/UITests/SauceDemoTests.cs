@@ -37,16 +37,21 @@ namespace Tests1.Tests.UITests
             SauceDemoInventoryPage inventoryPage = new SauceDemoInventoryPage(Page);
             bool isProductPageOpened = await inventoryPage.IsProductsPageOpenedAsync();
             isProductPageOpened.Should().BeTrue();
-            string firstItem = await inventoryPage.GetItemNameAsync(0);
-            string thirdItem = await inventoryPage.GetItemNameAsync(2);
+            string firstItemName = await inventoryPage.GetItemNameAsync(0);
+            string secondItemName = await inventoryPage.GetItemNameAsync(2);
+            string firstItemPrice = await inventoryPage.GetItemPriceAsync(0);
+            string secondItemPrice = await inventoryPage.GetItemPriceAsync(2);
             await inventoryPage.AddItemToCartAsync(0);
             await inventoryPage.AddItemToCartAsync(2);
             await inventoryPage.ClickCartIcon();
 
             SauceDemoShoppingCartPage cartPage = new SauceDemoShoppingCartPage(Page);
             IReadOnlyList<string> itemsInCart = await cartPage.GetItemNamesAsync();
-            itemsInCart.Should().Contain(firstItem);
-            itemsInCart.Should().Contain(thirdItem);
+            itemsInCart.Should().Contain(firstItemName);
+            itemsInCart.Should().Contain(secondItemName);
+            IReadOnlyList<string> pricesInCart = await cartPage.GetItemPricesAsync();
+            pricesInCart.Should().Contain(firstItemPrice);
+            pricesInCart.Should().Contain(secondItemPrice);
             await cartPage.ClickCheckoutButtonAsync();
 
             SauceDemoCheckoutFirstPage checkoutFirstPage = new SauceDemoCheckoutFirstPage(Page);
@@ -54,9 +59,12 @@ namespace Tests1.Tests.UITests
             await checkoutFirstPage.ClickContinueButtonAsync();
 
             SauceDemoCheckoutSecondPage checkoutSecondPage = new SauceDemoCheckoutSecondPage(Page);
-            IReadOnlyList<string> itemsOnOverview = await checkoutSecondPage.GetItemNamesAsync();
-            itemsOnOverview.Should().Contain(firstItem);
-            itemsOnOverview.Should().Contain(thirdItem);
+            IReadOnlyList<string> itemsInCheckout = await checkoutSecondPage.GetItemNamesAsync();
+            itemsInCheckout.Should().Contain(firstItemName);
+            itemsInCheckout.Should().Contain(secondItemName);
+            IReadOnlyList<string> pricesInCheckout = await checkoutSecondPage.GetItemPricesAsync();
+            pricesInCheckout.Should().Contain(firstItemPrice);
+            pricesInCheckout.Should().Contain(secondItemPrice);
             await checkoutSecondPage.ClickFinishButtonAsync();
 
             SauceDemoCheckoutCompletePage checkoutCompletePage = new SauceDemoCheckoutCompletePage(Page);

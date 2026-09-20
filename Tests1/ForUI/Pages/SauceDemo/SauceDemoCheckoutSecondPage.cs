@@ -10,10 +10,16 @@ namespace Tests1.ForUI.Pages.SauceDemo
         private readonly IPage Page;
         private ILocator ItemName => Page.Locator("//div[@data-test='inventory-item-name']");
         private ILocator FinishButton => Page.Locator("//button[@data-test='finish']");
+        private ILocator ItemPrice => Page.Locator("//div[@data-test='inventory-item-price']");
 
         public SauceDemoCheckoutSecondPage(IPage page)
         {
             Page = page;
+        }
+
+        public async Task ClickFinishButtonAsync()
+        {
+            await FinishButton.ClickAsync();
         }
 
         public async Task<IReadOnlyList<string>> GetItemNamesAsync()
@@ -21,9 +27,9 @@ namespace Tests1.ForUI.Pages.SauceDemo
             return await ItemName.AllTextContentsAsync();
         }
 
-        public async Task ClickFinishButtonAsync()
+        public async Task<IReadOnlyList<string>> GetItemPricesAsync()
         {
-            await FinishButton.ClickAsync();
+            return await ItemPrice.AllTextContentsAsync();
         }
     }
 }
