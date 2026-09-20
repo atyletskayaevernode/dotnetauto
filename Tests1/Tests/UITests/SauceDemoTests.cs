@@ -33,10 +33,37 @@ namespace Tests1.Tests.UITests
             SauceDemoLoginPage loginPage = new SauceDemoLoginPage(Page);
             await loginPage.OpenLoginPageAsync();
             await loginPage.AuthoriseAsync("standard_user", "secret_sauce");
+
+            //какая-то фигня, перепридумать
             bool isProductPageOpened = await Page.Locator("//span[text()='Products']").IsVisibleAsync();
             isProductPageOpened.Should().BeTrue();
 
+            SauceDemoInventoryPage inventoryPage = new SauceDemoInventoryPage(Page);
+            string firstItem = await inventoryPage.GetItemNameAsync(0);
+            string thirdItem = await inventoryPage.GetItemNameAsync(2);
+            await inventoryPage.AddItemToCartAsync(0);
+            await inventoryPage.AddItemToCartAsync(2);
+            await inventoryPage.ClickCartIcon();
 
+            SauceDemoShoppingCartPage cartPage = new SauceDemoShoppingCartPage(Page);
+            IReadOnlyList<string> itemsInCart = await cartPage.GetItemNamesAsync();
+            itemsInCart.Should().Contain(firstItem);
+            itemsInCart.Should().Contain(thirdItem);
+            await cartPage.ClickCheckoutButtonAsync();
+
+            SauceDemoCheckoutFirstPage checkoutFirstPage = new SauceDemoCheckoutFirstPage(Page);
+            await checkoutFirstPage.FillCheckoutInformationAsync("Ivan", "Ivanov", "12345");
+            await checkoutFirstPage.ClickContinueButtonAsync();
+
+            SauceDemoCheckoutSecondPage checkoutSecondPage = new SauceDemoCheckoutSecondPage(Page);
+            IReadOnlyList<string> itemsOnOverview = await checkoutSecondPage.GetItemNamesAsync();
+            itemsOnOverview.Should().Contain(firstItem);
+            itemsOnOverview.Should().Contain(thirdItem);
+            await checkoutSecondPage.ClickFinishButtonAsync();
+
+            SauceDemoCheckoutCompletePage checkoutCompletePage = new SauceDemoCheckoutCompletePage(Page);
+            string completeHeaderText = await checkoutCompletePage.GetCompleteHeaderTextAsync();
+            completeHeaderText.Should().Be("Thank you for your order!");
 
         }
     }
