@@ -17,6 +17,11 @@ namespace Tests1.ForUI.Pages.SauceDemo
             Page = page;
         }
 
+        public async Task<bool> IsProductsPageOpenedAsync()
+        {
+            return await ProductsTitle.IsVisibleAsync();
+        }
+
         public async Task AddItemToCartAsync(int itemIndex)
         {
             await InventoryItem.Nth(itemIndex).Locator("xpath=.//button[text()='Add to cart']").ClickAsync();

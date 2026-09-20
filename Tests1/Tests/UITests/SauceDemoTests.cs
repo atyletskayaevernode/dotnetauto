@@ -34,11 +34,9 @@ namespace Tests1.Tests.UITests
             await loginPage.OpenLoginPageAsync();
             await loginPage.AuthoriseAsync("standard_user", "secret_sauce");
 
-            //какая-то фигня, перепридумать
-            bool isProductPageOpened = await Page.Locator("//span[text()='Products']").IsVisibleAsync();
-            isProductPageOpened.Should().BeTrue();
-
             SauceDemoInventoryPage inventoryPage = new SauceDemoInventoryPage(Page);
+            bool isProductPageOpened = await inventoryPage.IsProductsPageOpenedAsync();
+            isProductPageOpened.Should().BeTrue();
             string firstItem = await inventoryPage.GetItemNameAsync(0);
             string thirdItem = await inventoryPage.GetItemNameAsync(2);
             await inventoryPage.AddItemToCartAsync(0);
