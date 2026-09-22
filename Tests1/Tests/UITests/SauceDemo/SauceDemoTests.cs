@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Tests1.Tests.UITests
+namespace Tests1.Tests.UITests.SauceDemo
 {
     public class SauceDemoTests : BaseTest
     {
