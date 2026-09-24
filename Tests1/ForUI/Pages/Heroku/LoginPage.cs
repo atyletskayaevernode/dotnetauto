@@ -21,7 +21,7 @@ namespace Tests1.ForUI.Pages.Heroku
 
         public async Task OpenLoginPageAsync()
         {
-            await Page.GotoAsync("https://www.saucedemo.com/");
+            await Page.GotoAsync("https://www.the-internet.herokuapp.com/login");
         }
 
         public async Task FillLoginFormAsExistingUserAsync(string username, string password)
