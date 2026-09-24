@@ -25,8 +25,10 @@ namespace Tests1.Tests.UITests
         public async Task SelectOptionInTheDropdownSelectOne()
         {
             SelectMenuDemoQA selectMenuDemoQA = new SelectMenuDemoQA(Page);
+
             await selectMenuDemoQA.OpenLoginPageAsync();
             await selectMenuDemoQA.SelectOptionFromSelectOneDropdownAsync("Prof.");
+            await selectMenuDemoQA.CheckSelectedOptionInSelectOneAsync("Prof.");
         }
     }
 }

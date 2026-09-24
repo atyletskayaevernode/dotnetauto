@@ -10,6 +10,8 @@ namespace Tests1.ForUI.Pages.DemoQA
         private readonly IPage Page;
 
         private ILocator SelectOneDropdown => Page.Locator("#selectOne");
+        private ILocator SelectOneInput => SelectOneDropdown.Locator("input");
+        private ILocator SelectOneSelectedValue => SelectOneDropdown.Locator("[class*='singleValue']");
 
         public SelectMenuDemoQA(IPage page)
         {
@@ -23,9 +25,13 @@ namespace Tests1.ForUI.Pages.DemoQA
 
         public async Task SelectOptionFromSelectOneDropdownAsync(string optionText)
         {
-            await SelectOneDropdown.ClickAsync();
-            var option = Page.GetByText(optionText);
-            await option.ClickAsync();
+            await SelectOneInput.FillAsync(optionText);
+            await SelectOneInput.PressAsync("Enter");
+        }
+
+        public async Task CheckSelectedOptionInSelectOneAsync(string expectedOption)
+        {
+            await Assertions.Expect(SelectOneSelectedValue).ToHaveTextAsync(expectedOption);
         }
     }
 }
