@@ -11,12 +11,12 @@ namespace Tests1.ForUI.Pages.SauceDemo
         private ILocator ProductsTitle => Page.Locator("//span[text()='Products']");
         private ILocator InventoryItem => Page.Locator("//div[@data-test='inventory-item']");
         private ILocator CartIcon => Page.Locator("//a[@data-test='shopping-cart-link']");
-        private ILocator ItemNameText => Page.Locator("[data-test='inventory-item-name']");
-        private ILocator ItemPriceText => Page.Locator("[data-test='inventory-item-price']");
+        private ILocator ItemName => Page.Locator("[data-test='inventory-item-name']");
+        private ILocator ItemPrice => Page.Locator("[data-test='inventory-item-price']");
         private ILocator AddToCartButton => Page.GetByRole(AriaRole.Button, new() { Name = "Add to cart" });
         private ILocator InventoryItemByName(string itemName) => InventoryItem.Filter(new()
         {
-        Has = ItemNameText.GetByText(itemName, new() { Exact = true })
+        Has = ItemName.GetByText(itemName, new() { Exact = true })
         });
 
         public SauceDemoInventoryPage(IPage page)
@@ -41,7 +41,7 @@ namespace Tests1.ForUI.Pages.SauceDemo
 
         public async Task<string> GetItemPriceAsync(string itemName)
         {
-            return await InventoryItemByName(itemName).Locator(ItemPriceText).TextContentAsync();
+            return await InventoryItemByName(itemName).Locator(ItemPrice).TextContentAsync();
         }
     }
 }
