@@ -11,6 +11,13 @@ namespace Tests1.ForUI.Pages.SauceDemo
         private ILocator ProductsTitle => Page.Locator("//span[text()='Products']");
         private ILocator InventoryItem => Page.Locator("//div[@data-test='inventory-item']");
         private ILocator CartIcon => Page.Locator("//a[@data-test='shopping-cart-link']");
+        private ILocator ItemNameText => Page.Locator("[data-test='inventory-item-name']");
+        private ILocator ItemPriceText => Page.Locator("[data-test='inventory-item-price']");
+        private ILocator AddToCartButton => Page.GetByRole(AriaRole.Button, new() { Name = "Add to cart" });
+        private ILocator InventoryItemByName(string itemName) => InventoryItem.Filter(new()
+        {
+        Has = ItemNameText.GetByText(itemName, new() { Exact = true })
+        });
 
         public SauceDemoInventoryPage(IPage page)
         {
@@ -22,28 +29,19 @@ namespace Tests1.ForUI.Pages.SauceDemo
             return await ProductsTitle.IsVisibleAsync();
         }
 
-        public async Task AddItemToCartAsync(int itemIndex)
+        public async Task AddItemToCartAsync(string itemName)
         {
-            await InventoryItem.Nth(itemIndex).Locator("xpath=.//button[text()='Add to cart']").ClickAsync();
+            await InventoryItemByName(itemName).Locator(AddToCartButton).ClickAsync();
         }
 
-        public async Task ClickCartIcon()
+        public async Task ClickCartIconAsync()
         {
             await CartIcon.ClickAsync();
         }
 
-        public async Task<string> GetItemNameAsync(int itemIndex)
+        public async Task<string> GetItemPriceAsync(string itemName)
         {
-            return await InventoryItem.Nth(itemIndex)
-                .Locator("xpath=.//div[@data-test='inventory-item-name']")
-                .TextContentAsync();
-        }
-
-        public async Task<string> GetItemPriceAsync(int itemIndex)
-        {
-            return await InventoryItem.Nth(itemIndex)
-                .Locator("xpath=.//div[@data-test='inventory-item-price']")
-                .TextContentAsync();
+            return await InventoryItemByName(itemName).Locator(ItemPriceText).TextContentAsync();
         }
     }
 }

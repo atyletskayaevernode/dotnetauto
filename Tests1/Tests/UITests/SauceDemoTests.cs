@@ -35,15 +35,15 @@ namespace Tests1.Tests.UITests
             await loginPage.AuthoriseAsync("standard_user", "secret_sauce");
 
             SauceDemoInventoryPage inventoryPage = new SauceDemoInventoryPage(Page);
+            string firstItemName = "Sauce Labs Backpack";
+            string secondItemName = "Sauce Labs Bolt T-Shirt";
             bool isProductPageOpened = await inventoryPage.IsProductsPageOpenedAsync();
             isProductPageOpened.Should().BeTrue();
-            string firstItemName = await inventoryPage.GetItemNameAsync(0);
-            string secondItemName = await inventoryPage.GetItemNameAsync(2);
-            string firstItemPrice = await inventoryPage.GetItemPriceAsync(0);
-            string secondItemPrice = await inventoryPage.GetItemPriceAsync(2);
-            await inventoryPage.AddItemToCartAsync(0);
-            await inventoryPage.AddItemToCartAsync(2);
-            await inventoryPage.ClickCartIcon();
+            string firstItemPrice = await inventoryPage.GetItemPriceAsync(firstItemName);
+            string secondItemPrice = await inventoryPage.GetItemPriceAsync(secondItemName);
+            await inventoryPage.AddItemToCartAsync(firstItemName);
+            await inventoryPage.AddItemToCartAsync(secondItemName);
+            await inventoryPage.ClickCartIconAsync();
 
             SauceDemoShoppingCartPage cartPage = new SauceDemoShoppingCartPage(Page);
             IReadOnlyList<string> itemsInCart = await cartPage.GetItemNamesAsync();
