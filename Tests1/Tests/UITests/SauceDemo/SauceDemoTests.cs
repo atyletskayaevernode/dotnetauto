@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using Tests1.ForUI.Pages.SauceDemo;
 
-namespace Tests1.Tests.UITests
+namespace Tests1.Tests.UITests.SauceDemo
 {
     public class SauceDemoTests : BaseTest
     {

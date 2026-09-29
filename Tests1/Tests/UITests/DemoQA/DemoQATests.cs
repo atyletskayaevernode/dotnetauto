@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using Tests1.ForUI.Pages.DemoQA;
 
-namespace Tests1.Tests.UITests
+namespace Tests1.Tests.UITests.DemoQA
 {
     public class DemoQATests : BaseTest
     {
