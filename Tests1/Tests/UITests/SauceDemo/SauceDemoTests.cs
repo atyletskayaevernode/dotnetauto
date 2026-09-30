@@ -3,6 +3,7 @@ using Microsoft.Playwright;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Tests1.ForUI.Pages.SauceDemo;
 
 namespace Tests1.Tests.UITests.SauceDemo
 {
@@ -24,6 +25,52 @@ namespace Tests1.Tests.UITests.SauceDemo
 
             var productsTitle = Page.Locator("//span[text()='Products']");
             (await productsTitle.IsVisibleAsync()).Should().BeTrue();
+        }
+
+        [Test]
+        public async Task BuyTwoProductsAsync()
+        {
+            SauceDemoLoginPage loginPage = new SauceDemoLoginPage(Page);
+            await loginPage.OpenLoginPageAsync();
+            await loginPage.AuthoriseAsync("standard_user", "secret_sauce");
+
+            SauceDemoInventoryPage inventoryPage = new SauceDemoInventoryPage(Page);
+            string firstItemName = "Sauce Labs Backpack";
+            string secondItemName = "Sauce Labs Bolt T-Shirt";
+            bool isProductPageOpened = await inventoryPage.IsProductsPageOpenedAsync();
+            isProductPageOpened.Should().BeTrue();
+            string firstItemPrice = await inventoryPage.GetItemPriceAsync(firstItemName);
+            string secondItemPrice = await inventoryPage.GetItemPriceAsync(secondItemName);
+            await inventoryPage.AddItemToCartAsync(firstItemName);
+            await inventoryPage.AddItemToCartAsync(secondItemName);
+            await inventoryPage.ClickCartIconAsync();
+
+            SauceDemoShoppingCartPage cartPage = new SauceDemoShoppingCartPage(Page);
+            IReadOnlyList<string> itemsInCart = await cartPage.GetItemNamesAsync();
+            itemsInCart.Should().Contain(firstItemName);
+            itemsInCart.Should().Contain(secondItemName);
+            IReadOnlyList<string> pricesInCart = await cartPage.GetItemPricesAsync();
+            pricesInCart.Should().Contain(firstItemPrice);
+            pricesInCart.Should().Contain(secondItemPrice);
+            await cartPage.ClickCheckoutButtonAsync();
+
+            SauceDemoCheckoutFirstPage checkoutFirstPage = new SauceDemoCheckoutFirstPage(Page);
+            await checkoutFirstPage.FillCheckoutInformationAsync("Ivan", "Ivanov", "12345");
+            await checkoutFirstPage.ClickContinueButtonAsync();
+
+            SauceDemoCheckoutSecondPage checkoutSecondPage = new SauceDemoCheckoutSecondPage(Page);
+            IReadOnlyList<string> itemsInCheckout = await checkoutSecondPage.GetItemNamesAsync();
+            itemsInCheckout.Should().Contain(firstItemName);
+            itemsInCheckout.Should().Contain(secondItemName);
+            IReadOnlyList<string> pricesInCheckout = await checkoutSecondPage.GetItemPricesAsync();
+            pricesInCheckout.Should().Contain(firstItemPrice);
+            pricesInCheckout.Should().Contain(secondItemPrice);
+            await checkoutSecondPage.ClickFinishButtonAsync();
+
+            SauceDemoCheckoutCompletePage checkoutCompletePage = new SauceDemoCheckoutCompletePage(Page);
+            string completeHeaderText = await checkoutCompletePage.GetCompleteHeaderTextAsync();
+            completeHeaderText.Should().Be("Thank you for your order!");
+
         }
     }
 }
