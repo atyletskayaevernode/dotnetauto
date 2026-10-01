@@ -35,7 +35,7 @@ namespace Tests1.Tests.UITests.DemoQA
         }
 
         [Test]
-        public async Task FormTest()
+        public async Task FormTest() //тест на заполнение формы https://demoqa.com/automation-practice-form
         {
             var builder = new StudentRegistrationBuilder();
             var student = builder.WithName("Jane", "Doe")
