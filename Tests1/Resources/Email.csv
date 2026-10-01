@@ -1,0 +1,8 @@
+﻿email, expected
+test@example.com,True
+user.name+tag@domain.co.uk,True
+invalid-email,False
+no-at-sing.com,False
+space in@email.com,False
+missing-dot@qwertycom,False
+good@test.org,True

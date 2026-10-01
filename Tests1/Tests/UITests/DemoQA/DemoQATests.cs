@@ -3,6 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Tests1.ForUI.Pages.DemoQA;
+using Tests1.Storages.Models;
+using Tests1.Storages.Builders;
+using Tests1.Enums;
 
 namespace Tests1.Tests.UITests.DemoQA
 {
@@ -29,6 +32,21 @@ namespace Tests1.Tests.UITests.DemoQA
             await selectMenuDemoQA.OpenLoginPageAsync();
             await selectMenuDemoQA.SelectOptionFromSelectOneDropdownAsync("Prof.");
             await selectMenuDemoQA.CheckSelectedOptionInSelectOneAsync("Prof.");
+        }
+
+        [Test]
+        public async Task FormTest()
+        {
+            var builder = new StudentRegistrationBuilder();
+            var student = builder.WithName("Jane", "Doe")
+                                 .WithEmail("jane.doe@example.com")
+                                 .WithGender(GenderType.Female)
+                                 .WithMobileNumber("1234567890")
+                                 .WithDateOfBirth(new DateTime(1990, 11, 12))
+                                 //и т.д. для всех остальных полей
+                                 .Build();
+
+
         }
     }
 }
