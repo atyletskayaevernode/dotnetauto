@@ -16,7 +16,7 @@ namespace Tests1.ForUI.Framework
             Browser = await Playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
             {
                 Headless = false,
-                SlowMo = 2000,
+                SlowMo = 1000,
                 Args = new[] { "--start-maximized" }
             });
         }

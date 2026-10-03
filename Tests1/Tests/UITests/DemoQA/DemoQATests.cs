@@ -38,7 +38,7 @@ namespace Tests1.Tests.UITests.DemoQA
         }
 
         [Test]
-        public async Task FormTest()
+        public async Task SubmitAQAPracticeFormAsync()
         {
             var picturePath = Path.Combine(
                 TestContext.CurrentContext.TestDirectory,
