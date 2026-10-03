@@ -42,7 +42,32 @@ namespace Tests1.Storages.Builders
             return this;
         }
 
-        // Add more methods for other properties as needed
+        public StudentRegistrationBuilder WithSubjects(params string[] subjects)
+        {
+            st.Subjects = subjects.ToList();
+            return this;
+        }
+        public StudentRegistrationBuilder WithHobbies(params HobbyType[] hobbies)
+        {
+            st.Hobbies = hobbies.ToList();
+            return this;
+        }
+        public StudentRegistrationBuilder WithPicture(string picturePath)
+        {
+            st.PicturePath = picturePath;
+            return this;
+        }
+        public StudentRegistrationBuilder WithCurrentAddress(string address)
+        {
+            st.CurrentAddress = address;
+            return this;
+        }
+        public StudentRegistrationBuilder WithStateAndCity(string state, string city)
+        {
+            st.State = state;
+            st.City = city;
+            return this;
+        }
         public StudentRegistrationFormModel Build()
         {
             return st;
