@@ -75,13 +75,13 @@ namespace Tests1.Tests.UITests.SauceDemo
 
         [TestCaseSource(typeof(SauceDemoUserTestDataProvider),
     nameof(SauceDemoUserTestDataProvider.AuthCases))]
-        public async Task OpenProductsPageAsValidUser(string username, string password)
+        public async Task OpenProductsPageAsValidUserAsync(string username, string password)
         {
-            var loginPage = new SauceDemoLoginPage(Page);
+            SauceDemoLoginPage loginPage = new SauceDemoLoginPage(Page);
             await loginPage.OpenLoginPageAsync();
             await loginPage.AuthoriseAsync(username, password);
 
-            var inventoryPage = new SauceDemoInventoryPage(Page);
+            SauceDemoInventoryPage inventoryPage = new SauceDemoInventoryPage(Page);
             var isOpened = await inventoryPage.IsProductsPageOpenedAsync();
 
             isOpened.Should().BeTrue();
