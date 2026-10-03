@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Tests1.ForUI.Pages.SauceDemo;
+using Tests1.DataProvider;
 
 namespace Tests1.Tests.UITests.SauceDemo
 {
@@ -70,7 +71,20 @@ namespace Tests1.Tests.UITests.SauceDemo
             SauceDemoCheckoutCompletePage checkoutCompletePage = new SauceDemoCheckoutCompletePage(Page);
             string completeHeaderText = await checkoutCompletePage.GetCompleteHeaderTextAsync();
             completeHeaderText.Should().Be("Thank you for your order!");
+        }
 
+        [TestCaseSource(typeof(SauceDemoUserTestDataProvider),
+    nameof(SauceDemoUserTestDataProvider.AuthCases))]
+        public async Task OpenProductsPageAsValidUserAsync(string username, string password)
+        {
+            SauceDemoLoginPage loginPage = new SauceDemoLoginPage(Page);
+            await loginPage.OpenLoginPageAsync();
+            await loginPage.AuthoriseAsync(username, password);
+
+            SauceDemoInventoryPage inventoryPage = new SauceDemoInventoryPage(Page);
+            var isOpened = await inventoryPage.IsProductsPageOpenedAsync();
+
+            isOpened.Should().BeTrue();
         }
     }
 }
