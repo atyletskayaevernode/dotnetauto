@@ -11,7 +11,7 @@ namespace Tests1.Storages.Builders
     {
         private readonly StudentRegistrationFormModel st = new();
 
-        public StudentRegistrationBuilder WithName(string firstName, string lastName) 
+        public StudentRegistrationBuilder WithName(string firstName, string lastName)
         {
             st.FirstName = firstName;
             st.LastName = lastName;
@@ -48,3 +48,4 @@ namespace Tests1.Storages.Builders
             return st;
         }
     }
+}
