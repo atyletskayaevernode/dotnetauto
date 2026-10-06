@@ -32,14 +32,17 @@ namespace Tests1.ForUI.Pages.DemoQA
         private ILocator ModalTitle => Page.Locator("//*[contains(@class,'modal-title')]");
         private ILocator ResultValueByLabel(string label) =>
             Page.Locator($"//div[contains(@class,'modal-content')]//td[text()='{label}']/following-sibling::td");
+
         public AutomationPracticeFormDemoQA(IPage page)
         {
             Page = page;
         }
+
         public async Task OpenFormPageAsync()
         {
             await Page.GotoAsync("https://demoqa.com/automation-practice-form");
         }
+
         public async Task FillFormAsync(StudentRegistrationFormModel student)
         {
             await FirstNameInput.FillAsync(student.FirstName);
