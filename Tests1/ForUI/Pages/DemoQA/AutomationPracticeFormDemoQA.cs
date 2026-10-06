@@ -73,6 +73,7 @@ namespace Tests1.ForUI.Pages.DemoQA
             await CityInput.FillAsync(student.City);
             await CityInput.PressAsync("Enter");
         }
+
         public async Task SubmitAsync()
         {
             await Page.EvaluateAsync(@"() => {
@@ -82,14 +83,17 @@ namespace Tests1.ForUI.Pages.DemoQA
             await SubmitButton.ScrollIntoViewIfNeededAsync();
             await SubmitButton.ClickAsync();
         }
+
         public async Task<string> GetSuccessTitleAsync()
         {
             return await ModalTitle.TextContentAsync();
         }
+
         public async Task<string> GetResultValueAsync(string label)
         {
             return await ResultValueByLabel(label).TextContentAsync();
         }
+
         private async Task FillDateOfBirthAsync(DateTime date)
         {
             await DateOfBirthInput.ClickAsync();
